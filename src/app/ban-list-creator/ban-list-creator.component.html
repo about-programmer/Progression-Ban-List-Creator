@@ -1,0 +1,178 @@
+<section>
+  <h3>
+    <span>First, upload your collection from YGOPRODeck.</span>
+    <span class="material-icons upload-help" (click)="dialog.open(downloadCollectionDialog)">help_outline</span></h3>
+  <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="uploadBanList($event)" accept=".csv"/>
+  <button mat-flat-button color="primary" (click)="csvInput.click()"><span class="material-icons">upload</span>Upload Collection</button>
+</section>
+<ng-template #downloadCollectionDialog>
+  <h1 mat-dialog-title>YGOPRODeck Collection</h1>
+  <div mat-dialog-content class="mat-dialog-content">
+    <p>
+      Access your collection on <a href="https://db.ygoprodeck.com/collection/">YGOPRODeck</a>.
+      Then, download your collection from YGOPRODeck as a CSV.
+      Finally, upload it on this site using the "Upload Collection" button.
+    </p>
+    <img src="../../assets/csv_button.png" alt="Arrow pointing to the download collection button" width="950px">
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>
+
+<section>
+  <h3>
+    <span>If you have a custom ban list, enter each card's password seperated by commas below.</span>
+    <span class="material-icons custom-ban-list-help" (click)="dialog.open(passwordDialog)">help_outline</span>
+  </h3>
+  <form [formGroup]="customBanListForm" class="custom-bans">
+    <mat-form-field appearance="fill">
+      <mat-label>Ban</mat-label>
+      <input matInput formControlName="banned" class="banned-field">
+      <mat-error *ngIf="customBanListForm.get('banned')?.hasError('pattern')">Must be numbers separated by commas.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Limited</mat-label>
+      <input matInput formControlName="limited" class="limited-field">
+      <mat-error *ngIf="customBanListForm.get('limited')?.hasError('pattern')">Must be numbers separated by commas.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Semi-Limited</mat-label>
+      <input matInput formControlName="semi" class="semi-field">
+      <mat-error *ngIf="customBanListForm.get('semi')?.hasError('pattern')">Must be numbers separated by commas.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Unlimited regardless of collection</mat-label>
+      <input matInput formControlName="unlimited" class="unlimited-field">
+      <mat-error *ngIf="customBanListForm.get('unlimited')?.hasError('pattern')">Must be numbers separated by commas.</mat-error>
+    </mat-form-field>
+  </form>
+</section>
+<ng-template #passwordDialog>
+  <h1 mat-dialog-title>Card Passwords</h1>
+  <div mat-dialog-content>
+    <p>A password is the eight-digit number printed on the bottom left corner of most cards.</p>
+    <img src="../../assets/password.png" alt="Arrow pointing to password on a card" height="350px">
+    <p>
+      Some cards like Gate Guardian do not have a password.
+      For these cards, use YGOPRODeck's card search and use the ID listed there instead.
+    </p>
+    <img src="../../assets/ygoprodeck_id.png" alt="Arrow pointing to YGOPRODeck's ID" height="350px">
+    <p>Duplicates are not checked for. If a card appears in two categories, preference will always be given to less restrictive category.</p>
+    <p>"Unlimited regardless of collection" means no matter how many you have in your collection, that card will be at 3.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>
+
+<section *ngIf="customBanListForm.value.limited || customBanListForm.value.semi || customBanListForm.value.unlimited">
+  <h3>
+    <span>If someone has less cards than the ban category, should they be bumped up to that amount?</span>
+    <span class="material-icons bump-up-help" (click)="dialog.open(bumpedUpHelp)">help_outline</span>
+  </h3>
+  <form class="higher-lower-custom-ban" [formGroup]="cardQuantityUp">
+    <ng-container *ngIf="customBanListForm.value.limited">
+      <span>Limited</span>
+      <mat-radio-group formControlName="limited" class="limited-bump">
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+    </ng-container>
+    <ng-container *ngIf="customBanListForm.value.semi">
+      <span>Semi-Limited</span>
+      <mat-radio-group formControlName="semi" class="semi-bump">
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
+      </mat-radio-group>
+    </ng-container>
+    <ng-container *ngIf="customBanListForm.value.unlimited">
+      <span>Unlimited</span>
+      <mat-radio-group formControlName="unlimited" class="unlimited-bump">
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+      </mat-radio-group>
+    </ng-container>
+  </form>
+</section>
+<ng-template #bumpedUpHelp>
+  <h1 mat-dialog-title>Bumped Up</h1>
+  <div mat-dialog-content>
+    <p>
+      If you listed Pot of Greed as Semi-Limited and someone only pulled 1 copy, should they be able to play 1 or 2?
+      Clicking "yes" will let them play 2. Clicking "no" will only let them play 1.
+    </p>
+    <p>
+      If you listed a card as Unlimited, then you can only mark "yes" since you want everyone to have 3 copies of it.
+      For example, you are doing set rotation and want everyone to have 3 copies of Polymerization for a GX set.
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>
+
+<section>
+  <h3>
+    <span>You may want to hide alternative format cards.</span>
+    <span class="material-icons alt-format-help" (click)="dialog.open(customOptionsDialog)">help_outline</span>
+  </h3>
+  <form [formGroup]="hideCards">
+    <p><mat-checkbox formControlName="unofficial">Hide anime & manga only cards</mat-checkbox></p>
+    <p><mat-checkbox formControlName="preErrata">Hide pre-errata cards</mat-checkbox></p>
+    <p><mat-checkbox formControlName="goat">Hide GOAT cards</mat-checkbox></p>
+    <p><mat-checkbox formControlName="rush">Hide Rush Duel cards</mat-checkbox></p>
+  </form>
+</section>
+<ng-template #customOptionsDialog>
+  <h1 mat-dialog-title>Alternative Formats</h1>
+  <div mat-dialog-content>
+    <p>If you uncheck these options, alternative versions of cards will be shown.</p>
+    <p>For example, the Rush Duel Flame Swordsman will be legal if you pulled Flame Swordsman and have "Hide Rush Duel cards" unchecked.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>
+
+<section class="ban-list-name">
+  <h3>
+    <span>Next, download your custom ban list.</span>
+    <span class="material-icons name-help" (click)="dialog.open(banListInfo)">help_outline</span>
+  </h3>
+  <mat-form-field appearance="fill">
+    <mat-label>Ban List Name</mat-label>
+    <input matInput [formControl]="banListName" class="ban-list-name-field">
+    <mat-error *ngIf="banListName.hasError('pattern')">Name cannot contain [ ] ! # . --</mat-error>
+  </mat-form-field>
+  <button mat-flat-button color="primary" (click)="downloadBanList()" class="download-button"><span class="material-icons">download</span>Download Ban List</button>
+</section>
+<ng-template #banListInfo>
+  <h1 mat-dialog-title>Ban List Name</h1>
+  <div mat-dialog-content>
+    <p>If you provide a name, the ban list will use your custom name. Do not provide a file extension. That will be provided for you.</p>
+    <p>Custom names are not allowed to use the following symbols: [ ] ! # --</p>
+    <p>If you do not provide a name, a name will automatically be generated for you based on the time.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>
+
+<section>
+  <h3>
+    <span>Finally, move the ban list to EDOPro's ban list folder and reload EDOPro.</span>
+    <span class="material-icons where-to-put-list-help" (click)="dialog.open(whereBanListGo)">help_outline</span>
+  </h3>
+</section>
+<ng-template #whereBanListGo>
+  <h1 mat-dialog-title>Ban List Location</h1>
+  <div mat-dialog-content>
+    <p>Put the custom banlist in the <code>lflists</code> folder of your EDOPro install.</p>
+    <p>For me, this was <code>C:/ProjectIgnis/lflists</code></p>
+    <p>If you are missing this folder, you can create it.</p>
+    <p>Reload EDOPro and your ban list should be avaliable.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial class="close-dialog">OK</button>
+  </div>
+</ng-template>

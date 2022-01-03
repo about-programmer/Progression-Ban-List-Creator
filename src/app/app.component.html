@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <span>EDOPro Ban List Creator</span>
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-button"><span class="material-icons">menu</span></button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/create-ban-list" class="ban-list-link"><span>EDOPro Ban List Creator</span></button>
+  <button mat-menu-item routerLink="/about" class="about-link"><span>About</span></button>
+</mat-menu>
+<main class="mat-app-background">
+  <router-outlet></router-outlet>
+</main>

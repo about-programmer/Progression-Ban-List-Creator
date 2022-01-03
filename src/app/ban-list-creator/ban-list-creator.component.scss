@@ -1,0 +1,56 @@
+section {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+
+  h3 {
+    width: fit-content;
+
+    span:last-child {
+      padding-left: 0.5rem;
+      float: right;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    max-width: fit-content;
+  }
+
+  mat-form-field {
+    max-width: 39rem;
+    padding-bottom: 1rem;
+  }
+
+  .custom-bans {
+    display: flex;
+    flex-direction: column;
+
+    mat-form-field:last-child {
+      padding-bottom: 0;
+    }
+  }
+
+  .higher-lower-custom-ban {
+    display: flex;
+    flex-direction: column;
+
+    mat-radio-group {
+      padding-top: 0.5rem;
+
+      &:not(:last-child) {
+        padding-bottom: 1rem;
+      }
+    }
+
+    mat-radio-button:first-child {
+      padding-right: 1rem;
+    }
+  }
+}
+
+.mat-dialog-content {
+  p > a {
+    color: #69f0ae;
+  }
+}

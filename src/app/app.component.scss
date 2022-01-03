@@ -1,0 +1,16 @@
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+main {
+  min-height: calc(100% - 64px);
+  display: flex;
+  flex-direction: column;
+  
+  ::ng-deep router-outlet + * {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
