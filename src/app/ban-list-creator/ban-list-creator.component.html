@@ -1,7 +1,8 @@
 <section>
   <h3>
     <span>First, upload your collection from YGOPRODeck.</span>
-    <span class="material-icons upload-help" (click)="dialog.open(downloadCollectionDialog)">help_outline</span></h3>
+    <button class="material-icons upload-help" (click)="dialog.open(downloadCollectionDialog)">help_outline</button>
+  </h3>
   <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="uploadBanList($event)" accept=".csv"/>
   <button mat-flat-button color="primary" (click)="csvInput.click()"><span class="material-icons">upload</span>Upload Collection</button>
 </section>
@@ -23,7 +24,7 @@
 <section>
   <h3>
     <span>If you have a custom ban list, enter each card's password seperated by commas below.</span>
-    <span class="material-icons custom-ban-list-help" (click)="dialog.open(passwordDialog)">help_outline</span>
+    <button class="material-icons custom-ban-list-help" (click)="dialog.open(passwordDialog)">help_outline</button>
   </h3>
   <form [formGroup]="customBanListForm" class="custom-bans">
     <mat-form-field appearance="fill">
@@ -69,7 +70,7 @@
 <section *ngIf="customBanListForm.value.limited || customBanListForm.value.semi || customBanListForm.value.unlimited">
   <h3>
     <span>If someone has less cards than the ban category, should they be bumped up to that amount?</span>
-    <span class="material-icons bump-up-help" (click)="dialog.open(bumpedUpHelp)">help_outline</span>
+    <button class="material-icons bump-up-help" (click)="dialog.open(bumpedUpHelp)">help_outline</button>
   </h3>
   <form class="higher-lower-custom-ban" [formGroup]="cardQuantityUp">
     <ng-container *ngIf="customBanListForm.value.limited">
@@ -114,7 +115,7 @@
 <section>
   <h3>
     <span>You may want to hide alternative format cards.</span>
-    <span class="material-icons alt-format-help" (click)="dialog.open(customOptionsDialog)">help_outline</span>
+    <button class="material-icons alt-format-help" (click)="dialog.open(customOptionsDialog)">help_outline</button>
   </h3>
   <form [formGroup]="hideCards">
     <p><mat-checkbox formControlName="unofficial">Hide anime & manga only cards</mat-checkbox></p>
@@ -137,7 +138,7 @@
 <section class="ban-list-name">
   <h3>
     <span>Next, download your custom ban list.</span>
-    <span class="material-icons name-help" (click)="dialog.open(banListInfo)">help_outline</span>
+    <button class="material-icons name-help" (click)="dialog.open(banListInfo)">help_outline</button>
   </h3>
   <mat-form-field appearance="fill">
     <mat-label>Ban List Name</mat-label>
@@ -161,7 +162,7 @@
 <section>
   <h3>
     <span>Finally, move the ban list to EDOPro's ban list folder and reload EDOPro.</span>
-    <span class="material-icons where-to-put-list-help" (click)="dialog.open(whereBanListGo)">help_outline</span>
+    <button class="material-icons where-to-put-list-help" (click)="dialog.open(whereBanListGo)">help_outline</button>
   </h3>
 </section>
 <ng-template #whereBanListGo>
