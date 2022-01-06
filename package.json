@@ -37,6 +37,7 @@
     "@types/file-saver": "^2.0.4",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
+    "angular-cli-ghpages": "^1.0.0",
     "cypress": "latest",
     "cypress-file-upload": "^5.0.8",
     "jasmine-core": "~3.8.0",
