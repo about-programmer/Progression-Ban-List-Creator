@@ -89,6 +89,7 @@ export class BanListCreatorComponent {
     this.hideAltFormatCards(banList);
     const download = this.generateEdoProList(banList, name);
     fileSaver.saveAs(new Blob([download], { type: 'text/plain' }), `${name}.lflist.conf`);
+    this.cardQuantities = {};
   }
 
   private generateEdoProList(banList: BanList, name: string): string {
@@ -169,7 +170,7 @@ export class BanListCreatorComponent {
     };
     const complexUpdate = (cardIds: Array<string>, quantity: number) => {
       cardIds.forEach((cardId: string) => {
-        if (Number(cardId) > this.cardQuantities[cardId]) {
+        if (quantity < this.cardQuantities[cardId]) {
           this.cardQuantities[cardId] = quantity;
         }
       })
